@@ -5,8 +5,9 @@ import java.util.Random;
 
 public class OneTimePad implements ActionListener {
    
-   public static final int ALPHABET = 26;
+   public static final int ALPHABET = 26; //Size of character set to encipher
    
+   //Creating the text boxes that hold the different parts of the cipher, as well as the message box.
    JTextArea clearText = new JTextArea(4, 30);
    JTextArea oneTimePad = new JTextArea(4, 30);
    JTextArea cipherText = new JTextArea(4, 30);
@@ -25,6 +26,7 @@ public class OneTimePad implements ActionListener {
       window.setLayout(new BorderLayout());
       //window.setResizable(false);
       
+      //Setting up all of the swing UI stuff
       JPanel textBoxes = new JPanel(new GridLayout(3, 1));
       JPanel buttons = new JPanel(new FlowLayout());
       
@@ -74,7 +76,11 @@ public class OneTimePad implements ActionListener {
    }
    
    public char convert(char input, char pad, boolean encoding) {
-      int padVal = pad - 'A';
+      int padVal = pad - 'A'; //figure out the shift for the encoding or decoding
+      //The basic algorithm is to for encoding and decoding respectively, get the index of the letter within the alphabet,
+      //add the pad value, and then modulo that such that the index is between 0 and 25, then shift it back by the value of 'A'/'a'
+      //giving you respectively your cipher or clear text
+      
       if (encoding) {
          if (Character.isUpperCase(input)) {
             int index = input - 'A';
@@ -112,9 +118,12 @@ public class OneTimePad implements ActionListener {
       }   
    }
    
+   /**
+    * Action handlers for the various buttons in the GUI
+    */
    public void actionPerformed(ActionEvent event) {
       if (event.getActionCommand().equals("Encode") || event.getActionCommand().equals("Decode")) {
-         char[] input = new char[1];
+         char[] input = null;
          boolean encode = event.getActionCommand().equals("Encode");
          oneTimePad.setText(oneTimePad.getText().toUpperCase().replaceAll("[^A-Z]", ""));
          char[] pad = oneTimePad.getText().toCharArray();
@@ -145,10 +154,8 @@ public class OneTimePad implements ActionListener {
          Random r = new Random();
          int length = clearText.getText().length();
          String newKey = "";
-         int chars = 0;
-         while (chars < length) {
+         while (newkey.length() < length) {
             newKey += (char) ('A' + r.nextInt(26));
-            chars++;
          }
          oneTimePad.setText(newKey);
       }
