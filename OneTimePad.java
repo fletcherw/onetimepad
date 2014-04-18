@@ -154,7 +154,7 @@ public class OneTimePad implements ActionListener {
          Random r = new Random();
          int length = clearText.getText().length();
          String newKey = "";
-         while (newkey.length() < length) {
+         while (newKey.length() < length) {
             newKey += (char) ('A' + r.nextInt(26));
          }
          oneTimePad.setText(newKey);
